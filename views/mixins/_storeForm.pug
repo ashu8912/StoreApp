@@ -1,13 +1,19 @@
 mixin storeForm(store={})
- form(action="/add" method="POST" class="card")
+ form(action=`/add/${store._id || ''}` method="POST" class="card")
   label(for="name") Name
-  input(type="text" placeholder="Enter name" id="name" name="name") 
+  input(type="text" placeholder="Enter name" id="name" name="name" value=store.name) 
   label(for="description") Description
-  textarea(name="description", cols="30", rows="10")
+  textarea(name="description", cols="30", rows="10") #{store.description}
+  label(for="address") Address
+  input(type="text" value=store.location && store.location.address placeholder="Enter Address" id="address" name="location[address]")
+  label(for="lng") Address Longitude
+  input(type="text" id="lng" value=store.location && store.location.coordinates[0] name="location[coordinates][0]")
+  label(for="lat") Address Latitude
+  input(type="text" id="lat" value=store.location && store.location.coordinates[1] name="location[coordinates][1]")
   - const choices=["Wifi","Open Late","family Friendly","vegetarian","licensed"] 
   ul.tags
    each choice in choices
     .tag.tag__choice
-      input(type="checkbox" value=choice name="tags" id=choice)
+      input(type="checkbox" checked=store.tags && store.tags.length && store.tags.indexOf(choice)>=0?true:false value=choice name="tags" id=choice)
       label(for=choice) #{choice}
   input(type="submit" value="save→" class="button")     
