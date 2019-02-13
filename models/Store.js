@@ -11,7 +11,25 @@ const storeSchema=mongoose.Schema({
         type:String,
         trim:true
     },
-    tags:[String]
+    tags:[String],
+    created:{
+     type:Number,
+     default:Date.now
+    },
+    location:{
+        type:{
+            type:String,
+            default:"Point"
+        },
+        coordinates:[{
+            type:Number,
+            required:"please provide coordinates"
+        }],
+        address:{
+            type:String,
+            required:"please provide address"
+        }
+    }
 })
 storeSchema.pre('save',function(next){
     if(!this.isModified('name'))
